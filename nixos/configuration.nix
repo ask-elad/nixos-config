@@ -99,7 +99,7 @@
   #   layout = "us";
   #   variant = "";
   # };
-  
+
   # Wayland base
   programs.sway.enable = true;
 
@@ -119,7 +119,6 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire
-  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
