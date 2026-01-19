@@ -89,10 +89,10 @@
 
   # Enable the X11 windowing system
   services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.libinput.enable = true;
 
   # # Enable the KDE Plasma Desktop Environment
-  services.displayManager.sddm.enable = true;
-  services.libinput.enable = true;
   # services.desktopManager.plasma6.enable = true;
 
   # # Configure keymap in X11
