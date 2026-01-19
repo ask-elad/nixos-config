@@ -1,53 +1,57 @@
-{ config, pkgs, ... }:
-
+{ pkgs, lib, ... }:
 {
   wayland.windowManager.sway = {
     enable = true;
-
-    config = {
+    config = rec {
       modifier = "Mod4";
-      terminal = "alacritty";
-      menu = "fuzzel";
+      terminal = "${pkgs.alacritty}/bin/alacritty";
+      menu = "${pkgs.fuzzel}/bin/fuzzel";
 
-      fonts = {
-        names = [ "JetBrains Mono" ];
-        size = 10.0;
-      };
-
+      # Gaps
       gaps = {
-        inner = 8;
-        outer = 4;
+        inner = 10;
+        outer = 5;
       };
 
-      input = {
-        "*" = {
-          xkb_layout = "us";
-          natural_scroll = "enabled";
-        };
+      # Keybindings
+      keybindings = lib.mkOptionDefault {
+        "${modifier}+Return" = "exec ${terminal}";
+        "${modifier}+d" = "exec ${menu}";
+        "${modifier}+Shift+q" = "kill";
+        "${modifier}+Shift+e" = "exec swaynag -t warning -m 'Exit sway?' -b 'Yes' 'swaymsg exit'";
+        "${modifier}+f" = "fullscreen toggle";
+        
+        # Focus
+        "${modifier}+h" = "focus left";
+        "${modifier}+j" = "focus down";
+        "${modifier}+k" = "focus up";
+        "${modifier}+l" = "focus right";
+        
+        # Move
+        "${modifier}+Shift+h" = "move left";
+        "${modifier}+Shift+j" = "move down";
+        "${modifier}+Shift+k" = "move up";
+        "${modifier}+Shift+l" = "move right";
       };
 
-      keybindings = {
-        "Mod4+Return" = "exec alacritty";
-        "Mod4+d" = "exec fuzzel";
-        "Mod4+Shift+e" = "exit";
-        "Mod4+Shift+q" = "kill";
-        "Mod4+h" = "focus left";
-        "Mod4+j" = "focus down";
-        "Mod4+k" = "focus up";
-        "Mod4+l" = "focus right";
-        "Mod4+Shift+h" = "move left";
-        "Mod4+Shift+j" = "move down";
-        "Mod4+Shift+k" = "move up";
-        "Mod4+Shift+l" = "move right";
-        "Mod4+f" = "fullscreen toggle";
-      };
+      # Startup applications
+      startup = [
+        { command = "${pkgs.waybar}/bin/waybar"; }
+      ];
 
-      bars = [ ]; # disable swaybar (we use waybar)
+      # Bar (disable built-in, waybar used instead)
+      bars = [];
     };
 
+    # Extra configuration
     extraConfig = ''
-      exec waybar
-      exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+      # Default border
+      default_border pixel 2
+      
+      # Colors
+      client.focused          #4c7899 #285577 #ffffff #2e9ef4 #285577
+      client.focused_inactive #333333 #5f676a #ffffff #484e50 #5f676a
+      client.unfocused        #333333 #222222 #888888 #292d2e #222222
     '';
   };
 }

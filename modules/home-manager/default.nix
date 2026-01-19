@@ -2,9 +2,9 @@
 # These should be stuff you would like to share with others, not your personal configurations.
 {
   imports = [
-    ./swway.nix
+    ./sway.nix
     ./waybar.nix
     ./alacritty.nix
     ./fuzzel.nix
-  ]
+  ];
 }
