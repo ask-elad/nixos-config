@@ -104,17 +104,6 @@
   # Wayland base
   programs.sway.enable = true;
 
-  # Seat & login
-  services.dbus.enable = true;
-  security.polkit.enable = true;
-
-  services.greetd.enable = true;
-  services.greetd.settings = {
-    default_session = {
-      command = "sway";
-      user = "askeladd";
-    };
-  };
 
   # Enable CUPS to print documents
   services.printing.enable = true;
