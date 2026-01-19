@@ -21,23 +21,21 @@
       
       overlays = import ./overlays { inherit inputs; };
       
-      # NixOS configuration
+      # NixOS configuration WITH Home Manager integrated
       nixosConfigurations = {
         askeladd = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
           modules = [
             ./nixos/configuration.nix
-          ];
-        };
-      };
-
-      # Home Manager configuration
-      homeConfigurations = {
-        "askeladd@askeladd" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            ./home-manager/home.nix
+            
+            # Integrate Home Manager as a NixOS module
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs outputs; };
+              home-manager.users.askeladd = import ./home-manager/home.nix;
+            }
           ];
         };
       };
