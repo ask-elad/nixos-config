@@ -17,10 +17,7 @@
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
-    ../modules/home-manager/alacritty.nix
-    ../modules/home-manager/fuzzel.nix
-    ../modules/home-manager/sway.nix
-    ../modules/home-manager/waybar.nix
+    ../modules/home-manager
   ];
 
   nixpkgs = {
